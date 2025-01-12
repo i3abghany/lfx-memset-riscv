@@ -24,7 +24,7 @@ jobs:
 
     - name: riscv simulator spike
       run: |
-        sudo apt install device-tree-compiler libboost-regex-dev libboost-system-dev
+        sudo apt install build-essential device-tree-compiler libboost-regex-dev libboost-system-dev
         git clone https://github.com/riscv-software-src/riscv-isa-sim.git spike
         pushd spike
         mkdir build && cd build && ../configure --prefix=/home/runner/opt/cross
@@ -36,6 +36,7 @@ jobs:
       run: |
         git clone https://github.com/riscv-software-src/riscv-pk
         pushd riscv-pk
+        export PATH=$PATH:/home/runner/opt/cross/bin
         mkdir build && cd build && ../configure --prefix=/home/runner/opt/cross --host=riscv64-unknown-elf
         make -j$(nproc)
         sudo make install
