@@ -4,12 +4,13 @@
 #include "expect.h"
 
 #define BUFF_SIZE 256
+#define INIT_VALUE 'A'
 
 extern void memset_aligned(void *ptr, int value, unsigned int num);
 
 void init_buffer(unsigned char *buffer, unsigned int size) {
   for (int i = 0; i < size; i++)
-    buffer[i] = 'A';
+    buffer[i] = INIT_VALUE;
 }
 
 void test_func(char *ptr, unsigned int start, unsigned int end, int value) {
@@ -25,12 +26,11 @@ void test_func(char *ptr, unsigned int start, unsigned int end, int value) {
 
   for (int i = 0; i < BUFF_SIZE; i++) {
     if (i < start || i >= end)
-      EXPECT(ptr[i] == 'A', "memset wrote outside of memset range");
+      EXPECT(ptr[i] == INIT_VALUE, "memset wrote outside of memset range");
     else
       EXPECT(ptr[i] == expected,
              "memset did not write the expected value within range");
   }
-
   printf("%d - test passed: start=%d, end=%d\n", ++test_no, start, end);
 }
 
