@@ -6,7 +6,7 @@
 #define EXPECT(x, msg)                                                         \
   do {                                                                         \
     if (!(x)) {                                                                \
-      printf("Assertion failed: %s\n", msg);                                   \
+      fprintf(stderr, "expect failed: %s: %s\n", #x, msg);                     \
       exit(1);                                                                 \
     }                                                                          \
   } while (0)
