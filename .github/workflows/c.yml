@@ -14,27 +14,13 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: install prerequisites
-      run: sudo apt-get install autoconf automake autotools-dev curl python3 python3-pip python3-tomli libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev ninja-build git cmake libglib2.0-dev libslirp-dev
+      run: sudo apt-get install -y wget autoconf automake autotools-dev curl python3 python3-pip python3-tomli libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev ninja-build git cmake libglib2.0-dev libslirp-dev
     - name: download riscv toolchain
-      run: git clone https://github.com/riscv/riscv-gnu-toolchain
-    - name: build riscv toolchain
+      run: wget https://github.com/riscv-collab/riscv-gnu-toolchain/releases/download/2024.03.01/riscv64-elf-ubuntu-22.04-gcc-nightly-2024.03.01-nightly.tar.gz
+    - name: install riscv toolchain
       run: |
-        pushd riscv-gnu-toolchain 
-        mkdir -p /home/runner/opt/cross/
-        git checkout 2024.04.12
-        ./configure --prefix=/home/runner/opt/cross/ \
-          --target=riscv64-unknown-elf \
-          --with-arch=rv64gvc_zba_zbb_zbc_zbs_zbkb \
-          --with-abi=lp64d \
-          --enable-multilib \
-          --disable-linux \
-          --enable-languages=c,c++ \
-          --disable-shared \
-          --with-newlib \
-          --with-tune=rocket 
-        make -j$(nproc) 
-        sudo make install
-        popd
+        mkdir -p /home/runner/opt/cross
+        tar -xvf riscv64-elf-ubuntu-22.04-gcc-nightly-2024.03.01-nightly.tar.gz -C /home/runner/opt/cross --strip-components=1
 
     - name: riscv simulator spike
       run: |
