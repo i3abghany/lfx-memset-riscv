@@ -20,8 +20,9 @@ jobs:
     - name: build riscv toolchain
       run: |
         pushd riscv-gnu-toolchain 
-        git checkout 2024.04.12 
-        ./configure --prefix=/opt/riscv \
+        mkdir -p /home/runner/opt/cross/
+        git checkout 2024.04.12
+        ./configure --prefix=/home/runner/opt/cross/ \
           --target=riscv64-unknown-elf \
           --with-arch=rv64gvc_zba_zbb_zbc_zbs_zbkb \
           --with-abi=lp64d \
@@ -37,9 +38,9 @@ jobs:
 
     - name: riscv simulator spike
       run: |
-        git clone git@github.com:riscv-software-src/riscv-isa-sim.git spike
+        git clone https://github.com/riscv-software-src/riscv-isa-sim.git spike
         pushd spike
-        mkdir build && cd build && configure --prefix=/opt/riscv
+        mkdir build && cd build && configure --prefix=/home/runner/opt/cross
         make -j$(nproc)
         sudo make install
         popd
@@ -48,9 +49,10 @@ jobs:
       run: |
         git clone https://github.com/riscv-software-src/riscv-pk
         pushd riscv-pk
-        mkdir build && cd build && ../configure --prefix=/opt/riscv --host=riscv64-unknown-elf
+        mkdir build && cd build && ../configure --prefix=/home/runner/opt/cross --host=riscv64-unknown-elf
         make -j$(nproc)
         sudo make install
+        popd
 
     - name: compile test harness
       run: make exe
