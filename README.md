@@ -47,7 +47,9 @@ The QEMU cache plugin is used to count the number of executed instructions to co
 ```bash
 # run the naive implementation
 $ make clean; make CFLAGS=-DNAIVE_IMPL exe
-$ qemu-riscv64 -plugin /path/to/qemu/src/build/contrib/plugins/libcache.so -d plugin -D naive.log exe
+$ qemu-riscv64 \
+    -plugin /path/to/qemu/src/build/contrib/plugins/libcache.so \
+    -d plugin -D naive.log exe
 $ head -n 2 naive.log
 
 core #, data accesses, data misses, dmiss rate, insn accesses, insn misses, imiss rate
@@ -56,7 +58,9 @@ core #, data accesses, data misses, dmiss rate, insn accesses, insn misses, imis
 
 # run the optimized implementation
 $ make clean; make exe
-$ qemu-riscv64 -plugin /path/to/qemu/src/build/contrib/plugins/libcache.so -d plugin -D optimized.log exe
+$ qemu-riscv64 \
+    -plugin /path/to/qemu/src/build/contrib/plugins/libcache.so \
+    -d plugin -D optimized.log exe
 $ head -n 2 optimized.log
 
 core #, data accesses, data misses, dmiss rate, insn accesses, insn misses, imiss rate
