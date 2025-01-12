@@ -43,7 +43,11 @@ jobs:
         popd
 
     - name: compile test harness
-      run: make exe
+      run: |
+        export PATH=$PATH:/home/runner/opt/cross/bin
+        make exe
 
     - name: run test
-      run: make run
+      run: |
+        export PATH=$PATH:/home/runner/opt/cross/bin
+        make run
