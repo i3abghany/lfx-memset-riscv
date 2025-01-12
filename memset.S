@@ -6,10 +6,10 @@ memset_aligned:
   packw a1, a1, a1
   c.beqz a3, 2f
 1:
-  c.sb a1, 0(a0)
-  c.addi a3, -1
-  c.addi a0, 1
-  c.bnez a3, 1b
+  c.sb a1, 0(a0)  # a3 = a2 % 4. We handle misalignment first
+  c.addi a3, -1   # so that the rest of the loop is aligned.
+  c.addi a0, 1    # This way, we adaptively handle the case where
+  c.bnez a3, 1b   # __riscv_misaligned_avoid is defined.
 2:
   c.beqz a2, 3f
   c.sw a1, 0(a0)
