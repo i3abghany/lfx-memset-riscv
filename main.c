@@ -3,10 +3,11 @@
 
 #include "expect.h"
 
-#define BUFF_SIZE 256
+#define BUFF_SIZE 256 * 16
 #define INIT_VALUE 'A'
 
 extern void memset_aligned(void *ptr, int value, unsigned int num);
+extern void memset_naive(void *ptr, int value, unsigned int num);
 
 void init_buffer(unsigned char *buffer, unsigned int size) {
   for (int i = 0; i < size; i++)
@@ -22,7 +23,12 @@ void test_func(char *ptr, unsigned int start, unsigned int end, int value) {
   EXPECT(size <= BUFF_SIZE, "test error: size is greater than buffer size");
 
   init_buffer(ptr, BUFF_SIZE);
+
+#ifdef NAIVE_IMPL
+  memset_naive(ptr + start, value, size);
+#else
   memset_aligned(ptr + start, value, size);
+#endif
 
   for (int i = 0; i < BUFF_SIZE; i++) {
     if (i < start || i >= end)
