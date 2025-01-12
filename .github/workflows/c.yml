@@ -1,0 +1,57 @@
+name: memset test ci
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: download riscv toolchain
+      run: git clone https://github.com/riscv/riscv-gnu-toolchain
+    - name: build riscv toolchain
+      run: |
+        pushd riscv-gnu-toolchain 
+        git checkout 2024.04.12 
+        ./configure --prefix=/opt/riscv \
+          --target=riscv64-unknown-elf \
+          --with-arch=rv64gvc_zba_zbb_zbc_zbs_zbkb \
+          --with-abi=lp64d \
+          --enable-multilib \
+          --disable-linux \
+          --enable-languages=c,c++ \
+          --disable-shared \
+          --with-newlib \
+          --with-tune=rocket 
+        make -j$(nproc) 
+        sudo make install
+        popd
+
+    - name: riscv simulator spike
+      run: |
+        git clone git@github.com:riscv-software-src/riscv-isa-sim.git spike
+        pushd spike
+        mkdir build && cd build && configure --prefix=/opt/riscv
+        make -j$(nproc)
+        sudo make install
+        popd
+
+    - name: download and install riscv pk
+      run: |
+        git clone https://github.com/riscv-software-src/riscv-pk
+        pushd riscv-pk
+        mkdir build && cd build && ../configure --prefix=/opt/riscv --host=riscv64-unknown-elf
+        make -j$(nproc)
+        sudo make install
+
+    - name: compile test harness
+      run: make exe
+
+    - name: run test
+      run: make run
