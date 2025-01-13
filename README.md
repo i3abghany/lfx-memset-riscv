@@ -68,7 +68,7 @@ core #, data accesses, data misses, dmiss rate, insn accesses, insn misses, imis
                                                 ~~~~~~~~
 ```
 
-When using the optimized implementation, the number of executed instructions (in the test program, which includes both aligned and misaligned sizes from 0 up to BUFF_SIZE and boilerplate code) is reduced by ~14% compared to the naive implementation.
+When using the optimized implementation, the number of executed instructions (in the test program, which includes both aligned and misaligned sizes from 0 up to `BUFF_SIZE` and boilerplate code) is reduced by ~14% compared to the naive implementation.
 
 ## Build
 
@@ -120,6 +120,13 @@ To use docker to build and run the project, use the following commands.
 $ docker build -t lfx-memset-riscv .
 $ docker run -it lfx-memset-riscv
 ```
+
+## CI Testing
+
+The tests have been run in Github Actions. The results of passing tests can be
+checked here:
+
+https://github.com/i3abghany/lfx-memset-riscv/actions/runs/12737810435/job/35499297508
 
 ## Author
 
