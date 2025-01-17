@@ -9,13 +9,13 @@ The `memset_aligned` function defined in `memset.S` optimizes for the case where
 - Static code size is optimized by using a minimal number of instructions, and using compressed instruction (RISC-V C extension) where possible.
 - `Zbkb` (Bit manipulation for Cryptography) extension instructions (`packh` and `packw`) are used to broadcast the byte value to a 32-bit word.
 - The code adapts for `__riscv_misaligned_avoid` by first setting the misaligned bytes one by one, and then setting the aligned bytes 4 bytes at a time.
-- Extensive functional testing of the implementation is done in `main.c` and emulated in the Spike RISC-V simulation.
+- Extensive functional testing of the implementation is done in `main.c` and emulated in the Spike RISC-V simulator.
 - Some basic dynamic analysis is done using QEMU cache plugin.
 - Dockerfile is provided for building, running, and testing the implementation in a containerized environment.
 
 ## Analysis
 
-Here, I provide a brief analysis of the implementation.
+This section provides a brief analysis of the implementation.
 
 ### Static code size
 
