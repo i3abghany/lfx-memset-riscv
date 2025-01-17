@@ -82,11 +82,12 @@ Prerequisites:
 $ sudo apt update
 $ sudo apt install -y wget git build-essential
 
+# install RISC-V GCC toolchain
 $ wget https://github.com/riscv-collab/riscv-gnu-toolchain/releases/download/2024.03.01/riscv64-elf-ubuntu-22.04-gcc-nightly-2024.03.01-nightly.tar.gz
 $ mkdir -p /home/$USER/opt/cross
 $ tar -xvf riscv64-elf-ubuntu-22.04-gcc-nightly-2024.03.01-nightly.tar.gz -C /home/$USER/opt/cross --strip-components=1
 
-# install spike prerequisites
+# install spike simulator
 $ sudo apt -y install device-tree-compiler libboost-regex-dev libboost-system-dev
 $ git clone https://github.com/riscv-software-src/riscv-isa-sim.git spike
 $ pushd spike
@@ -96,7 +97,6 @@ $ sudo make install
 $ popd
 
 # install pk
-
 $ git clone https://github.com/riscv-software-src/riscv-pk
 $ pushd riscv-pk
 $ export PATH=$PATH:/home/$USER/opt/cross/bin
@@ -130,4 +130,4 @@ https://github.com/i3abghany/lfx-memset-riscv/actions/runs/12737810435/job/35499
 
 ## Author
 
-[Mahmoud Abumandour](i3abghany.github.io)
+[Mahmoud Abumandour](https://i3abghany.github.io)
