@@ -68,7 +68,7 @@ core #, data accesses, data misses, dmiss rate, insn accesses, insn misses, imis
                                                 ~~~~~~~~
 ```
 
-When using the optimized implementation, the number of executed instructions (in the test program, which includes both aligned and misaligned sizes from 0 up to `BUFF_SIZE` and boilerplate code) is reduced by ~14% compared to the naive implementation.
+When using the optimized implementation, the number of executed instructions (in the test program, which includes more than 600 tests of both aligned and misaligned test cases and boilerplate code) is reduced by ~14% compared to the naive implementation.
 
 ## Build
 
